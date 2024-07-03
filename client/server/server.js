@@ -14,10 +14,15 @@ router.use("^/$", (req, res) => {
     }
     res.send(
       data.replace(
+        `<did id="root"></ div>`,
         `<did id="root">${ReactDomServer.renderToString(<app />)}</ div>`
       )
     );
   });
 });
 
+router.use(
+  express.static(path.resolve(__dirname, "..", "build"), { maxAge: "30d" })
+);
+app.use(router);
 app.listen(PORT, () => console.log(`Server listen at port ${PORT}`));
